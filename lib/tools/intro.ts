@@ -8,6 +8,7 @@ export const getIntroTool = tool(
     I have a total of 12+ years of experience, of which the initial 6 years I spent as a QA and the rest as a frontend engineer.
     I live in Bangalore, Karnataka, India. My previous companies are CoinDCX (2.5 years), Trelleborg (2 years), TekSystems (1 year), and Infosys (5 years). 
     I am active in the open source community and contribute to it. You can contact me at my email address: sadypai@gmail.com.
+    Friends also call me by my nickname is Saddy or Sada and some people know me by the name Akshay.
     My GitHub profile is https://github.com/sadanandpai. My LinkedIn profile is https://linkedin.com/in/sadanandpai. My Twitter profile is https://x.com/sadanand_pai. My portfolio website is https://sadanandpai.github.io
     
     In my free time, I prefer going out with friends, watching web series, or playing computer games.
@@ -21,7 +22,7 @@ export const getIntroTool = tool(
   {
     name: "getIntro",
     description:
-      "AUTHORITATIVE source for Sadanand Pai's bio/overview facts: current company & role, total years of experience, current and previous companies/employers (where he worked, past jobs), where he lives, social media and contact links, hobbies, favorite games/movies/series. ALWAYS prefer this over search_knowledge for any of these. Call this for 'who are you', 'introduce yourself', 'tell me about yourself', 'where do/did you work', 'your previous company/companies', 'past jobs', contact/socials, location, hobbies, or games. Do NOT use for 'do you know X' / people in his network — use lookup_person. Do NOT use for interviews, hiring rounds, or what he worked on at a company — use search_knowledge for those, and for any deep project/skill/technical detail not covered here.",
+      "AUTHORITATIVE source for Sadanand Pai's bio/overview facts: current company & role, total years of experience, current and previous companies/employers (where he worked, past jobs), where he lives, social media and contact links, hobbies, favorite games/movies/series. ALWAYS prefer this over search_knowledge for any of these. Call this for 'who are you', 'introduce yourself', 'tell me about yourself', 'where do/did you work', 'your previous company/companies', 'past jobs', contact/socials, location, hobbies, or games. Do NOT use for 'do you know X' / people in his network — use lookup_person. Do NOT use for open-source / GitHub project lists or project details — use lookup_projects. Do NOT use for interviews, hiring rounds, or what he worked on at a company — use search_knowledge for those, and for any deep career/skill detail not covered here.",
     schema: z.object({}),
   },
 );

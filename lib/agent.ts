@@ -6,6 +6,7 @@ import { stripToolMessagesMiddleware } from "@/lib/middlewares/strip-tool-messag
 import { searchKnowledgeTool } from "@/lib/tools/knowledge";
 import { getIntroTool } from "@/lib/tools/intro";
 import { lookupPersonTool } from "@/lib/tools/people";
+import { lookupProjectsTool } from "@/lib/tools/projects";
 
 // In-process memory: fine for local dev / single instance.
 // Swap for a Redis/Postgres checkpointer before running multi-instance.
@@ -16,7 +17,12 @@ export const agent = createAgent({
     model: "gemini-3.5-flash-lite",
     temperature: 0.25,
   }),
-  tools: [getIntroTool, lookupPersonTool, searchKnowledgeTool],
+  tools: [
+    getIntroTool,
+    lookupPersonTool,
+    lookupProjectsTool,
+    searchKnowledgeTool,
+  ],
   middleware: [
     // Run before summarizer so tool payloads don't inflate token/message counts.
     stripToolMessagesMiddleware,
