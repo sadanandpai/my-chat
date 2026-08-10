@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "ingest:knowledge": "tsx --env-file=.env.local scripts/ingest-knowledge.ts",
+    "ingest:knowledge:dry": "tsx --env-file=.env.local scripts/ingest-knowledge.ts --dry-run"
   },
   "dependencies": {
     "@ai-sdk/langchain": "^3.0.58",
@@ -18,6 +20,7 @@
     "@langchain/google-genai": "^2.2.0",
     "@langchain/langgraph": "^1.4.9",
     "ai": "^7.0.58",
+    "fuse.js": "^7.5.0",
     "langchain": "^1.5.5",
     "next": "16.3.0",
     "react": "19.2.8",
@@ -32,6 +35,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   }
 }
