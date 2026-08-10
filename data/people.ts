@@ -13,7 +13,7 @@ export const people: PersonRecord[] = [
     aliases: ["Utkarsh"],
     relationship: "guide (resources); skilled full-stack engineer",
     notes:
-      'Recommended the "You Don\'t Know JS" book and assured that completing it would build strong JavaScript proficiency for front-end development. Served as a guide for learning resources and is a skilled full-stack engineer.',
+      'Recommended the "You Don\'t Know JS" book and assured that completing it would build strong JavaScript proficiency for front-end development. Served as a guide for learning resources. He is an experienced Backend Engineer | Cloud-Native Solutions Architect | Distributed Systems Specialist with 10+ years of experience in backend engineering, building scalable, high-performance systems. He is focused is on Golang, Rust, and Node.js, with expertise in cloud-native technologies like AWS, Kubernetes, Terraform, and ArgoCD. He specializes in designing resilient microservices architectures, optimizing CI/CD workflows, and implementing Infrastructure as Code. With a strong background in distributed systems, He enjoy solving complex infrastructure challenges and ensuring reliability, scalability, and efficiency in every solution he builds.',
   },
   {
     name: "Prashant Sharma",
@@ -89,10 +89,10 @@ export const people: PersonRecord[] = [
   {
     name: "Sunny Puri",
     aliases: ["Sunny"],
-    company: "Team DevCode",
+    company: "Paypal",
     relationship: "mentor; friend",
     notes:
-      "Mentor and friend—one of the people who helped me excel in frontend engineering. Connected through a DOM challenge he ran under Team DevCode; also joined November Talks and many Team DevCode activities. Later joined Team DevCode's organizing committee. Always helped me learn, guided me as a senior with deep knowledge when things were tough. Among the most highly skilled frontend engineers I've seen.",
+      "Mentor and friend—one of the people who helped me excel in frontend engineering. Connected through a DOM challenge he ran under Team Devkode; also joined November Talks and many Team Devkode activities. Later joined Team Devkode's organizing committee. Always helped me learn, guided me as a senior with deep knowledge when things were tough. Among the most highly skilled frontend engineers I've seen.",
   },
   {
     name: "NC Patro",
@@ -113,18 +113,18 @@ export const people: PersonRecord[] = [
   {
     name: "Chirag Goel",
     aliases: ["Chirag Goel", "Chirag", "Chirag Goyal"],
-    company: "YouTube podcasts / system design videos",
+    company: "Google",
     relationship: "friend; podcast host (I spoke on one of his podcasts)",
     notes:
       "Highly skilled frontend engineer and system design expert. His videos were highly beneficial for me and many others. Friend; also appeared as a speaker on one of his YouTube podcasts.",
   },
   {
-    name: "Gopal Krishnan",
-    aliases: ["Gopal", "Gopal K"],
-    company: "Team DevCode; open-source projects",
+    name: "Gopalakrishnan C",
+    aliases: ["Gopal", "Gopal K", "Gopalakrishnan"],
+    company: "Freshworks",
     relationship: "friend; collaborator",
     notes:
-      "Friend; collaborated on multiple open-source projects. Met through Team DevCode. Highly skilled lead and one who goes in depth to understand various concepts.",
+      "Friend; collaborated on multiple open-source projects. Met through Team Devkode. Highly skilled lead and one who goes in depth to understand various concepts.",
   },
   {
     name: "Vivek",
