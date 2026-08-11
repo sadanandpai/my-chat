@@ -13,7 +13,7 @@ export const people: PersonRecord[] = [
     aliases: ["Utkarsh"],
     relationship: "guide (resources); skilled full-stack engineer",
     notes:
-      'Recommended the "You Don\'t Know JS" book and assured that completing it would build strong JavaScript proficiency for front-end development. Served as a guide for learning resources. He is an experienced Backend Engineer | Cloud-Native Solutions Architect | Distributed Systems Specialist with 10+ years of experience in backend engineering, building scalable, high-performance systems. He is focused is on Golang, Rust, and Node.js, with expertise in cloud-native technologies like AWS, Kubernetes, Terraform, and ArgoCD. He specializes in designing resilient microservices architectures, optimizing CI/CD workflows, and implementing Infrastructure as Code. With a strong background in distributed systems, He enjoy solving complex infrastructure challenges and ensuring reliability, scalability, and efficiency in every solution he builds.',
+      'Recommended the "You Don\'t Know JS" book and assured that completing it would build strong JavaScript proficiency for front-end development. He is key person who helped me to transition from QA to frontend engineering. Served as a guide for learning resources. He is an experienced Backend Engineer | Cloud-Native Solutions Architect | Distributed Systems Specialist with 10+ years of experience in backend engineering, building scalable, high-performance systems.',
   },
   {
     name: "Prashant Sharma",
@@ -26,9 +26,9 @@ export const people: PersonRecord[] = [
     name: "Megha",
     aliases: ["Megha"],
     company: "Huawei",
-    relationship: "colleague; teammate; initially acted as lead; QA mentor",
+    relationship: "colleague; teammate; initially acted as lead;",
     notes:
-      "Colleague and teammate at Huawei who initially acted as lead. Guided me on test planning and testing activities for our project. Knowledgeable QA engineer who offered strong mentorship.",
+      "Colleague and teammate at Huawei who initially acted as lead. Guided me on test planning and testing activities for our project. Knowledgeable QA engineer.",
   },
   {
     name: "Shardul Negi",
@@ -90,7 +90,7 @@ export const people: PersonRecord[] = [
     name: "Sunny Puri",
     aliases: ["Sunny"],
     company: "Paypal",
-    relationship: "mentor; friend",
+    relationship: "mentor; guide; friend",
     notes:
       "Mentor and friend—one of the people who helped me excel in frontend engineering. Connected through a DOM challenge he ran under Team Devkode; also joined November Talks and many Team Devkode activities. Later joined Team Devkode's organizing committee. Always helped me learn, guided me as a senior with deep knowledge when things were tough. Among the most highly skilled frontend engineers I've seen.",
   },
@@ -145,11 +145,11 @@ export const people: PersonRecord[] = [
   {
     name: "Rakesh Saini",
     aliases: ["Rakesh"],
-    company:
-      "Jscoders (WhatsApp community co-founder); weekly meetups/sessions",
-    relationship: "collaborator",
+    company: "PWC",
+    relationship:
+      "Jscoders (WhatsApp community co-founder); weekly meetups/sessions; collaborator",
     notes:
-      "Full-stack developer and manager. Collaborated on weekly meetups, sessions, and knowledge sharing. Co-founded the WhatsApp community JSCoders.",
+      "Full-stack developer and manager. Collaborated on weekly meetups, sessions, and knowledge sharing. Co-founded the WhatsApp community JSCoders. He is an Application Architect & AI Engineer | Building Production-Grade LLM Systems  at Scale | 14+ Years in Distributed Systems & Full-Stack Engineering",
   },
   {
     name: "Kiran Abburi",
@@ -185,7 +185,7 @@ export const people: PersonRecord[] = [
   {
     name: "Naveen Kumar",
     aliases: ["Naveen"],
-    company: "lead at his company",
+    company: "lead at Nevius",
     relationship: "friend",
     notes:
       "Friend; Backend engineer working with Java. Hardworking, highly skilled solutions engineer and lead at his company. We regularly discuss AI, backend, frontend, architecture, algorithms and data structures, and product design.",
@@ -201,9 +201,9 @@ export const people: PersonRecord[] = [
     name: "Shailendra Sahu",
     aliases: ["Shailendra"],
     company: "CoinDCX",
-    relationship: "team lead; mentor and guide",
+    relationship: "team lead; guide",
     notes:
-      "Team lead at CoinDCX. Highly skilled frontend solutions architect, mentor, and guide. Helped with learning and guidance while I worked at CoinDCX.",
+      "Team lead at CoinDCX. Highly skilled frontend solutions architect, and guide. Helped with learning and guidance while I worked at CoinDCX.",
   },
   {
     name: "Yoga",

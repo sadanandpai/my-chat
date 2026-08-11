@@ -5,6 +5,7 @@ import { summaryPrefix, summaryPrompt, systemPrompt } from "@/lib/prompts";
 import { stripToolMessagesMiddleware } from "@/lib/middlewares/strip-tool-messages";
 import { searchKnowledgeTool } from "@/lib/tools/knowledge";
 import { getIntroTool } from "@/lib/tools/intro";
+import { lookupCompanyTool } from "@/lib/tools/companies";
 import { lookupPersonTool } from "@/lib/tools/people";
 import { lookupProjectsTool } from "@/lib/tools/projects";
 
@@ -19,6 +20,7 @@ export const agent = createAgent({
   }),
   tools: [
     getIntroTool,
+    lookupCompanyTool,
     lookupPersonTool,
     lookupProjectsTool,
     searchKnowledgeTool,
