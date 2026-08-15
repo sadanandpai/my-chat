@@ -1,7 +1,6 @@
 import { tool } from "langchain";
 import { z } from "zod";
-import { embedText } from "@/lib/helpers/embeddings";
-import { queryVectorize } from "@/lib/helpers/vectorize";
+import { searchKnowledge } from "@/lib/helpers/weaviate";
 
 export type RetrievedChunk = {
   id: string;
@@ -9,45 +8,6 @@ export type RetrievedChunk = {
   text: string;
   metadata: Record<string, unknown>;
 };
-
-function chunkText(metadata: Record<string, unknown> | undefined): string {
-  if (!metadata) return "";
-  const candidates = ["prompt", "text", "content", "pageContent", "body"];
-  for (const key of candidates) {
-    const value = metadata[key];
-    if (typeof value === "string" && value.trim()) return value;
-  }
-  return "";
-}
-
-/**
- * Floor for obvious non-matches. Deliberately low: similarity alone cannot separate
- * "interview at Microsoft" (~0.76, not in the corpus) from "how did you learn CSS"
- * (~0.68, in the corpus). Grounding rules below do that work instead.
- */
-const MIN_SCORE = Number(process.env.RAG_MIN_SCORE ?? 0.62);
-
-/** Embed query → Vectorize top-k → readable chunks. */
-export async function retrieveKnowledge(
-  query: string,
-  topK = 5,
-): Promise<RetrievedChunk[]> {
-  const vector = await embedText(query);
-  const { matches } = await queryVectorize({
-    vector,
-    topK,
-    returnMetadata: "all",
-  });
-
-  return matches
-    .map((match) => ({
-      id: match.id,
-      score: match.score,
-      text: chunkText(match.metadata),
-      metadata: match.metadata ?? {},
-    }))
-    .filter((chunk) => chunk.text.length > 0 && chunk.score >= MIN_SCORE);
-}
 
 const NOTHING_FOUND =
   "NOTHING_FOUND — nothing in your memory covers this. Say you haven't done it / don't recall it. Never mention lookups, knowledge, or context.";
@@ -58,6 +18,30 @@ Before answering, check the fragments for the exact thing being asked about — 
 - If it is NOT named in the fragments below, it did NOT happen to you. Say no / that you haven't / that you don't recall, then offer what you did do.
 - Similar things are not the same thing. Fragments about interviewing at one company are NOT evidence that you interviewed at a different company.
 - Never generalize a fragment into a claim it does not state. Never invent details to sound consistent.`;
+
+/**
+ * Floor for obvious non-matches. Deliberately low: similarity alone cannot separate
+ * "interview at Microsoft" (~0.76, not in the corpus) from "how did you learn CSS"
+ * (~0.68, in the corpus). Grounding rules below do that work instead.
+ */
+const MIN_SCORE = Number(process.env.RAG_MIN_SCORE ?? 0.62);
+
+/** Hybrid search in Weaviate Cloud → readable chunks. */
+export async function retrieveKnowledge(
+  query: string,
+  topK = 5,
+): Promise<RetrievedChunk[]> {
+  const hits = await searchKnowledge(query, topK);
+
+  return hits
+    .filter((hit) => hit.text.length > 0 && hit.score >= MIN_SCORE)
+    .map((hit) => ({
+      id: hit.id,
+      score: hit.score,
+      text: hit.text,
+      metadata: { source: hit.source, chunkIndex: hit.chunkIndex },
+    }));
+}
 
 export function formatChunks(chunks: RetrievedChunk[]): string {
   if (chunks.length === 0) {

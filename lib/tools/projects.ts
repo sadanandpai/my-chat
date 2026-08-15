@@ -1,15 +1,14 @@
 import Fuse from "fuse.js";
 import { tool } from "langchain";
 import { z } from "zod";
-import { projects, type ProjectRecord } from "@/data/projects";
+import { type ProjectRecord } from "@/constants/types";
+import { getToolRecords } from "@/lib/helpers/tool-data";
 
 export type { ProjectRecord };
 
-const fuse = new Fuse(projects, {
-  keys: ["name", "aliases", "description", "tech", "highlights", "notes"],
-  threshold: 0.35,
-  includeScore: true,
-});
+async function loadProjects(): Promise<ProjectRecord[]> {
+  return getToolRecords<ProjectRecord>("projects");
+}
 
 function formatProject(project: ProjectRecord): string {
   const lines = [
@@ -55,14 +54,18 @@ function formatMatches(
 /** LangChain tool: list or fuzzy-lookup open-source projects. */
 export const lookupProjectsTool = tool(
   async ({ query }) => {
+    const items = await loadProjects();
     const q = query?.trim() ?? "";
     if (!q) {
-      const sorted = [...projects].sort(
-        (a, b) => b.starsApprox - a.starsApprox,
-      );
+      const sorted = [...items].sort((a, b) => b.starsApprox - a.starsApprox);
       return `Open-source projects (AUTHORITATIVE list, sorted by approx stars):\n\n${formatList(sorted)}\n\nGitHub profile: https://github.com/sadanandpai`;
     }
 
+    const fuse = new Fuse(items, {
+      keys: ["name", "aliases", "description", "tech", "highlights", "notes"],
+      threshold: 0.35,
+      includeScore: true,
+    });
     const matches = fuse.search(q, { limit: 5 });
     return formatMatches(matches);
   },

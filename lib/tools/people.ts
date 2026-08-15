@@ -1,13 +1,12 @@
 import Fuse from "fuse.js";
 import { tool } from "langchain";
 import { z } from "zod";
-import { people, type PersonRecord } from "@/data/people";
+import { type PersonRecord } from "@/constants/types";
+import { getToolRecords } from "@/lib/helpers/tool-data";
 
-const fuse = new Fuse(people, {
-  keys: ["name", "aliases"],
-  threshold: 0.3,
-  includeScore: true,
-});
+async function loadPeople(): Promise<PersonRecord[]> {
+  return getToolRecords<PersonRecord>("people");
+}
 
 function formatPerson(person: PersonRecord): string {
   return `[Name] ${person.name}
@@ -58,11 +57,17 @@ ${rows}`;
 /** LangChain tool: fuzzy person lookup, or the full roster when no name is given. */
 export const lookupPersonTool = tool(
   async ({ name }) => {
+    const items = await loadPeople();
     const query = name?.trim() ?? "";
     if (!query) {
-      return formatRoster(people);
+      return formatRoster(items);
     }
 
+    const fuse = new Fuse(items, {
+      keys: ["name", "aliases"],
+      threshold: 0.3,
+      includeScore: true,
+    });
     const matches = fuse.search(query, { limit: 3 });
     return formatMatches(matches);
   },

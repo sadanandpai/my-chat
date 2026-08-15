@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { toBaseMessages, toUIMessageStream } from "@ai-sdk/langchain";
 import { createUIMessageStreamResponse, type UIMessage } from "ai";
-import { agent } from "@/lib/agent";
+import { agent } from "@/lib/agents/root";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;

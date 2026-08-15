@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "ingest:knowledge": "tsx --env-file=.env.local scripts/ingest-knowledge.ts",
-    "ingest:knowledge:dry": "tsx --env-file=.env.local scripts/ingest-knowledge.ts --dry-run"
+    "lint": "eslint"
   },
   "dependencies": {
     "@ai-sdk/langchain": "^3.0.58",
@@ -19,13 +17,16 @@
     "@langchain/core": "^1.2.5",
     "@langchain/google-genai": "^2.2.0",
     "@langchain/langgraph": "^1.4.9",
+    "@langchain/textsplitters": "^1.0.1",
+    "@upstash/redis": "^1.38.2",
     "ai": "^7.0.58",
     "fuse.js": "^7.5.0",
     "langchain": "^1.5.5",
     "next": "16.3.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "weaviate-client": "^3.14.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

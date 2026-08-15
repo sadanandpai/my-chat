@@ -1,15 +1,14 @@
 import Fuse from "fuse.js";
 import { tool } from "langchain";
 import { z } from "zod";
-import { companies, type CompanyRecord } from "@/data/companies";
+import { type CompanyRecord } from "@/constants/types";
+import { getToolRecords } from "@/lib/helpers/tool-data";
 
 export type { CompanyRecord };
 
-const fuse = new Fuse(companies, {
-  keys: ["name"],
-  threshold: 0.3,
-  includeScore: true,
-});
+async function loadCompanies(): Promise<CompanyRecord[]> {
+  return getToolRecords<CompanyRecord>("companies");
+}
 
 function kindLabel(kind: CompanyRecord["kind"]): string {
   switch (kind) {
@@ -101,11 +100,17 @@ ${interviewBlock}`;
 /** LangChain tool: fuzzy company lookup, or full roster when no name is given. */
 export const lookupCompanyTool = tool(
   async ({ name }) => {
+    const items = await loadCompanies();
     const query = name?.trim() ?? "";
     if (!query) {
-      return formatRoster(companies);
+      return formatRoster(items);
     }
 
+    const fuse = new Fuse(items, {
+      keys: ["name"],
+      threshold: 0.3,
+      includeScore: true,
+    });
     const matches = fuse.search(query, { limit: 3 });
     return formatMatches(matches);
   },

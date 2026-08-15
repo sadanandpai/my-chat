@@ -1,7 +1,11 @@
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { MemorySaver } from "@langchain/langgraph";
 import { createAgent, summarizationMiddleware } from "langchain";
-import { summaryPrefix, summaryPrompt, systemPrompt } from "@/lib/prompts";
+import {
+  summaryPrefix,
+  summaryPrompt,
+  systemPrompt,
+} from "@/constants/prompts";
 import { stripToolMessagesMiddleware } from "@/lib/middlewares/strip-tool-messages";
 import { searchKnowledgeTool } from "@/lib/tools/knowledge";
 import { getIntroTool } from "@/lib/tools/intro";
