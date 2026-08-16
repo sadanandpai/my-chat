@@ -17,7 +17,7 @@ export default async function AdminPage() {
   const initial = await loadTools();
 
   return (
-    <main className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-8">
+    <main className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col gap-6 overflow-y-auto px-4 py-8">
       <RagForm
         initialData={initial.ok ? initial.data : emptyData}
         loadError={initial.ok ? undefined : initial.error}

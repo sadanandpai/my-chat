@@ -1,8 +1,9 @@
 "use client";
 
 import { AuiIf, ThreadPrimitive } from "@assistant-ui/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import type { ChatCopy, ChatPersona } from "../../types";
+import { Avatar } from "./avatar";
 import { Composer } from "./composer";
 import { AssistantMessage, UserMessage } from "./message";
 
@@ -12,6 +13,8 @@ type ThreadProps = {
 };
 
 export function Thread({ persona, copy }: ThreadProps) {
+  useVisualViewportHeight();
+
   const renderMessage = useCallback(
     ({ message }: { message: { role: string } }) =>
       message.role === "user" ? (
@@ -23,8 +26,8 @@ export function Thread({ persona, copy }: ThreadProps) {
   );
 
   return (
-    <ThreadPrimitive.Root className="flex min-h-0 flex-1 flex-col">
-      <ThreadPrimitive.Viewport className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-4 py-8">
+    <ThreadPrimitive.Root className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <ThreadPrimitive.Viewport className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-4 py-4 sm:py-8">
         <AuiIf condition={(s) => s.thread.isEmpty}>
           <EmptyState persona={persona} copy={copy} />
         </AuiIf>
@@ -32,19 +35,40 @@ export function Thread({ persona, copy }: ThreadProps) {
         <ThreadPrimitive.Messages>{renderMessage}</ThreadPrimitive.Messages>
       </ThreadPrimitive.Viewport>
 
-      <div className="sticky bottom-0 border-t border-zinc-200/60 bg-background px-4 py-4 dark:border-zinc-800/60">
+      <div className="shrink-0 border-t border-zinc-200/60 bg-background px-4 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:py-4 dark:border-zinc-800/60">
         <Composer placeholder={copy.placeholder} />
       </div>
     </ThreadPrimitive.Root>
   );
 }
 
+/** iOS Safari ignores interactive-widget; pin --app-height to the visual viewport. */
+function useVisualViewportHeight() {
+  useEffect(() => {
+    const root = document.documentElement;
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    const sync = () => {
+      root.style.setProperty("--app-height", `${Math.round(vv.height)}px`);
+      window.scrollTo(0, 0);
+    };
+
+    sync();
+    vv.addEventListener("resize", sync);
+    vv.addEventListener("scroll", sync);
+    return () => {
+      vv.removeEventListener("resize", sync);
+      vv.removeEventListener("scroll", sync);
+      root.style.removeProperty("--app-height");
+    };
+  }, []);
+}
+
 function EmptyState({ persona, copy }: ThreadProps) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-3 text-center">
-      <span className="flex size-12 items-center justify-center rounded-full bg-zinc-200 text-sm font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
-        {persona.initials}
-      </span>
+      <Avatar persona={persona} size={48} className="size-12 text-sm" />
       <div>
         <p className="text-lg font-medium">{copy.emptyTitle}</p>
         {copy.emptySubtitle ? (

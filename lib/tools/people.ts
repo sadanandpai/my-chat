@@ -2,74 +2,31 @@ import Fuse from "fuse.js";
 import { tool } from "langchain";
 import { z } from "zod";
 import { type PersonRecord } from "@/constants/types";
-import { getToolRecords } from "@/lib/helpers/tool-data";
+import { getToolData, getToolRecords } from "@/lib/helpers/tool-data";
 
-async function loadPeople(): Promise<PersonRecord[]> {
-  return getToolRecords<PersonRecord>("people");
-}
-
-function formatPerson(person: PersonRecord): string {
-  return `[Name] ${person.name}
-  [Company] ${person.company}
-  [Relationship] ${person.relationship}
-  [Notes] ${person.notes}`;
-}
-
-function formatMatches(
-  matches: Array<{ item: PersonRecord; score?: number }>,
-): string {
-  if (matches.length === 0) {
-    return "NOTHING_FOUND — you don't recall this person. Reply in character (you may not know them, or don't share private details) and never mention lookups, knowledge, tools, or files.";
-  }
-
-  return matches
-    .map((match, i) => {
-      const score =
-        match.score !== undefined
-          ? ` (score=${(1 - match.score).toFixed(2)})`
-          : "";
-      return `[${i + 1}] ${match.item.name}${score}\n${formatPerson(match.item)}`;
-    })
-    .join("\n\n");
-}
-
-/** Compact roster: enough to name and characterise people, without the long notes. */
-function formatRoster(items: PersonRecord[]): string {
-  const rows = items
-    .map((person, i) => {
-      const parts = [person.name];
-      if (person.company) parts.push(person.company);
-      if (person.relationship) parts.push(person.relationship);
-      return `[${i + 1}] ${parts.join(" — ")}`;
-    })
-    .join("\n");
-
-  return `Everyone you recall from your career and network (AUTHORITATIVE and COMPLETE — ${items.length} people).
-
-These are the ONLY people you know. Nobody outside this list exists to you: never name another person.
-Company names on this roster are context for these people only — for employers / 'did you work at X' / career timeline, use lookup_company.
-Pick the ones the question is actually about (mentors, guides, leads, collaborators, friends) using the relationship shown. If asked to name them, name them — do not say there are too many to list.
-Call this tool again with a name for the full story on any one person.
-
-${rows}`;
-}
+const NOTHING_FOUND =
+  "NOTHING_FOUND — you don't recall this person. Reply in character (you may not know them, or don't share private details) and never mention lookups, knowledge, tools, or files.";
 
 /** LangChain tool: fuzzy person lookup, or the full roster when no name is given. */
 export const lookupPersonTool = tool(
   async ({ name }) => {
-    const items = await loadPeople();
     const query = name?.trim() ?? "";
     if (!query) {
-      return formatRoster(items);
+      return getToolData("people");
     }
 
+    const items = await getToolRecords<PersonRecord>("people");
     const fuse = new Fuse(items, {
       keys: ["name", "aliases"],
       threshold: 0.3,
-      includeScore: true,
     });
     const matches = fuse.search(query, { limit: 3 });
-    return formatMatches(matches);
+    if (matches.length === 0) return NOTHING_FOUND;
+    return JSON.stringify(
+      matches.map((match) => match.item),
+      null,
+      2,
+    );
   },
   {
     name: "lookup_person",

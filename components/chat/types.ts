@@ -2,6 +2,7 @@ export type ChatPersona = {
   name: string;
   tagline?: string;
   initials: string;
+  image?: string;
 };
 
 export type ChatCopy = {
