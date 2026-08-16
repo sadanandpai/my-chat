@@ -2,72 +2,33 @@ import Fuse from "fuse.js";
 import { tool } from "langchain";
 import { z } from "zod";
 import { type ProjectRecord } from "@/constants/types";
-import { getToolRecords } from "@/lib/helpers/tool-data";
+import { getToolData, getToolRecords } from "@/lib/helpers/tool-data";
 
 export type { ProjectRecord };
 
-async function loadProjects(): Promise<ProjectRecord[]> {
-  return getToolRecords<ProjectRecord>("projects");
-}
-
-function formatProject(project: ProjectRecord): string {
-  const lines = [
-    `Name: ${project.name}`,
-    `Repo: ${project.repo}`,
-    `Description: ${project.description}`,
-    `Tech: ${project.tech.join(", ")}`,
-    `Stars (approx): ~${project.starsApprox}`,
-  ];
-  if (project.homepage) lines.push(`Homepage: ${project.homepage}`);
-  if (project.highlights) lines.push(`Highlights: ${project.highlights}`);
-  if (project.notes) lines.push(`Notes: ${project.notes}`);
-  return lines.join("\n");
-}
-
-function formatList(items: ProjectRecord[]): string {
-  return items
-    .map(
-      (p, i) =>
-        `[${i + 1}] ${p.name} (~${p.starsApprox}★) — ${p.description}\n    ${p.repo}${p.homepage ? `\n    ${p.homepage}` : ""}`,
-    )
-    .join("\n\n");
-}
-
-function formatMatches(
-  matches: Array<{ item: ProjectRecord; score?: number }>,
-): string {
-  if (matches.length === 0) {
-    return "NOTHING_FOUND — you don't recall an open-source project matching that name. Say you haven't built that / don't recall it by that name, then offer your closest related projects. Never mention lookups, knowledge, tools, or files.";
-  }
-
-  return matches
-    .map((match, i) => {
-      const score =
-        match.score !== undefined
-          ? ` (score=${(1 - match.score).toFixed(2)})`
-          : "";
-      return `[${i + 1}] ${match.item.name}${score}\n${formatProject(match.item)}`;
-    })
-    .join("\n\n");
-}
+const NOTHING_FOUND =
+  "NOTHING_FOUND — you don't recall an open-source project matching that name. Say you haven't built that / don't recall it by that name, then offer your closest related projects. Never mention lookups, knowledge, tools, or files.";
 
 /** LangChain tool: list or fuzzy-lookup open-source projects. */
 export const lookupProjectsTool = tool(
   async ({ query }) => {
-    const items = await loadProjects();
     const q = query?.trim() ?? "";
     if (!q) {
-      const sorted = [...items].sort((a, b) => b.starsApprox - a.starsApprox);
-      return `Open-source projects (AUTHORITATIVE list, sorted by approx stars):\n\n${formatList(sorted)}\n\nGitHub profile: https://github.com/sadanandpai`;
+      return getToolData("projects");
     }
 
+    const items = await getToolRecords<ProjectRecord>("projects");
     const fuse = new Fuse(items, {
       keys: ["name", "aliases", "description", "tech", "highlights", "notes"],
       threshold: 0.35,
-      includeScore: true,
     });
     const matches = fuse.search(q, { limit: 5 });
-    return formatMatches(matches);
+    if (matches.length === 0) return NOTHING_FOUND;
+    return JSON.stringify(
+      matches.map((match) => match.item),
+      null,
+      2,
+    );
   },
   {
     name: "lookup_projects",

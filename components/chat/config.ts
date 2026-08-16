@@ -6,6 +6,7 @@ export const chatPersona: ChatPersona = {
   name: "Sadanand Pai",
   tagline: "Frontend engineer",
   initials: "SP",
+  image: "https://avatars.githubusercontent.com/u/12962887",
 };
 
 export const chatCopy: ChatCopy = {
