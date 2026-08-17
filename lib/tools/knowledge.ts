@@ -10,7 +10,7 @@ export type RetrievedChunk = {
 };
 
 const NOTHING_FOUND =
-  "NOTHING_FOUND — nothing in your memory covers this. Say you haven't done it / don't recall it. Never mention lookups, knowledge, or context.";
+  "NOTHING_FOUND — you don't recall this. Named fact → you haven't done it. Story/walkthrough → you don't remember one in that detail. Then offer the closest real thing. Never mention lookups, knowledge, stored data, or this chat as a limit.";
 
 const GROUNDING_RULES = `These are the closest fragments of your memory. They are matched by similarity, so they are often only loosely related and may have NOTHING to do with the question.
 
@@ -24,7 +24,7 @@ Before answering, check the fragments for the exact thing being asked about — 
  * "interview at Microsoft" (~0.76, not in the corpus) from "how did you learn CSS"
  * (~0.68, in the corpus). Grounding rules below do that work instead.
  */
-const MIN_SCORE = Number(process.env.RAG_MIN_SCORE ?? 0.62);
+const MIN_SCORE = Number(process.env.RAG_MIN_SCORE ?? 0.25);
 
 /** Hybrid search in Weaviate Cloud → readable chunks. */
 export async function retrieveKnowledge(

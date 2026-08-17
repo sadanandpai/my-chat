@@ -7,7 +7,7 @@ import { getToolData, getToolRecords } from "@/lib/helpers/tool-data";
 export type { SkillRecord };
 
 const NOTHING_FOUND =
-  "NOTHING_FOUND — you have no record of this skill. You do not list it as something you know. Say so plainly, then offer the closest real skills from your roster. Never mention lookups, knowledge, tools, or files.";
+  "NOTHING_FOUND — this is not a skill you know. Say so plainly, then offer the closest real skills. Never mention lookups, knowledge, tools, records, or files.";
 
 /** LangChain tool: fuzzy skill lookup, or full roster when no query is given. */
 export const lookupSkillsTool = tool(

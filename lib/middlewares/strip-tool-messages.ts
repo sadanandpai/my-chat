@@ -1,5 +1,6 @@
 import {
   AIMessage,
+  HumanMessage,
   RemoveMessage,
   ToolMessage,
   type BaseMessage,
@@ -85,10 +86,13 @@ export function stripCompletedToolPairs(
   return kept;
 }
 
-/** Permanently strip completed tool traffic from agent state before each model call. */
+/** Permanently strip completed tool traffic when a new user prompt arrives. */
 export const stripToolMessagesMiddleware = createMiddleware({
   name: "stripToolMessages",
   beforeModel: async (state) => {
+    const last = state.messages.at(-1);
+    if (!last || !HumanMessage.isInstance(last)) return;
+
     const cleaned = stripCompletedToolPairs(state.messages);
     const unchanged =
       cleaned.length === state.messages.length &&

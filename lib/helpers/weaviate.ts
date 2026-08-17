@@ -112,6 +112,9 @@ export async function resetKnowledgeCollection() {
   return ensureKnowledgeCollection();
 }
 
+/** 0 = BM25 only, 1 = vector only. Default 0.5 */
+const HYBRID_ALPHA = Number(process.env.RAG_HYBRID_ALPHA ?? 0.5);
+
 /** Hybrid search: Weaviate embeds the query + BM25 on `text`. */
 export async function searchKnowledge(
   query: string,
@@ -120,6 +123,7 @@ export async function searchKnowledge(
   const knowledge = await getKnowledgeCollection();
   const { objects } = await knowledge.query.hybrid(query, {
     limit: topK,
+    alpha: Number.isFinite(HYBRID_ALPHA) ? HYBRID_ALPHA : 0.5,
     queryProperties: ["text"],
     returnMetadata: ["score"],
     returnProperties: ["text", "source", "chunkIndex"],

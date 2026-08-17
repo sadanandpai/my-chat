@@ -7,7 +7,7 @@ import { getToolData, getToolRecords } from "@/lib/helpers/tool-data";
 export type { CompanyRecord };
 
 const NOTHING_FOUND =
-  "NOTHING_FOUND — you have no record of this company. You did not work there and did not interview there. Say no plainly, then offer the closest real employer or interview from your roster. Never mention lookups, knowledge, tools, or files.";
+  "NOTHING_FOUND — you did not work at this company and did not interview there. Say no plainly, then offer the closest real employer or interview. Never mention lookups, knowledge, tools, records, or files.";
 
 /** LangChain tool: fuzzy company lookup, or full roster when no name is given. */
 export const lookupCompanyTool = tool(

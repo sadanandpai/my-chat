@@ -31,7 +31,7 @@ export const lookupPersonTool = tool(
   {
     name: "lookup_person",
     description:
-      "AUTHORITATIVE source for the people in Sadanand's career and network (colleagues, mentors, guides, leads, teammates, friends, collaborators) and how they relate to him. Pass a name for one person: 'do you know X', 'who is X', 'have you worked with X'. Pass NO name (or an empty string) to get the complete roster of everyone he knows — ALWAYS do this for questions with no single name in them, such as 'who inspired you', 'who are your mentors', 'who did you learn from', 'who helped you', 'who have you worked with', 'name all of them', 'who else', 'list them'. Never answer a people question from memory or from generic reasoning: if the ask is about people, call this tool first. Do NOT use search_knowledge or getIntro for people/relationship questions.",
+      "AUTHORITATIVE roster of people Sadanand knows (colleagues, mentors, leads, teammates, friends) and how they relate to him. Always call this for people/relationship questions — never answer from memory; never use search_knowledge or getIntro. Named person ('do you know X', 'who is X') → pass that name. No single name ('who inspired you', 'mentors', 'who have you worked with', 'list them', 'who else') → pass empty name for the full roster.",
     schema: z.object({
       name: z
         .string()

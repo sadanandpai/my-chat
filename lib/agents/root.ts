@@ -57,12 +57,12 @@ export const agent = createAgent({
   model,
   tools,
   middleware: [
-    // Run before summarizer so tool payloads don't inflate token/message counts.
+    // New user prompt only — mid-turn tool results stay so the model can read them.
     stripToolMessagesMiddleware,
     summarizationMiddleware({
       model: summarizerModel,
-      trigger: { messages: 5 },
-      keep: { messages: 2 },
+      trigger: { messages: 6 },
+      keep: { messages: 4 },
       summaryPrefix,
       summaryPrompt,
     }),
