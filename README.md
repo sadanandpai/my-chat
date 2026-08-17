@@ -1,6 +1,6 @@
 # Pai Chat
 
-First-person chat with [Sadanand Pai](https://github.com/sadanandpai). Grounded answers from a personal knowledge base — work, projects, people, companies. Off-topic and private questions are refused.
+First-person chat with [Sadanand Pai](https://github.com/sadanandpai). Grounded answers from a personal knowledge base — work, projects, people, companies, skills. Off-topic and private questions are refused.
 
 ## Stack
 
@@ -22,7 +22,7 @@ Set `LLM_PROVIDER` in `.env.local`:
 
 | Value | Model | Grounding |
 |---|---|---|
-| unset / anything else | Gemini `gemini-3.5-flash-lite` | Full toolset (intro, companies, people, projects, knowledge) |
+| unset / anything else | Gemini `gemini-3.5-flash-lite` | Full toolset (intro, companies, people, projects, skills, knowledge) |
 | `claude-cli` | Local [`claude`](https://docs.anthropic.com/en/docs/claude-code) CLI | None — text only, no tools |
 
 Gemini needs `GOOGLE_API_KEY`, Weaviate, and Upstash. Claude CLI uses the CLI's own auth — no API key, but ungrounded and billed per token.

@@ -13,6 +13,7 @@ import { getIntroTool } from "@/lib/tools/intro";
 import { lookupCompanyTool } from "@/lib/tools/companies";
 import { lookupPersonTool } from "@/lib/tools/people";
 import { lookupProjectsTool } from "@/lib/tools/projects";
+import { lookupSkillsTool } from "@/lib/tools/skills";
 
 // Which LLM backs the agent. Set LLM_PROVIDER=claude-cli to run the Claude CLI
 // workflow; anything else (or unset) runs Gemini.
@@ -32,6 +33,7 @@ const tools = useClaude
       lookupCompanyTool,
       lookupPersonTool,
       lookupProjectsTool,
+      lookupSkillsTool,
       searchKnowledgeTool,
     ];
 

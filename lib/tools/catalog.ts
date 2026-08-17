@@ -3,6 +3,7 @@ export const TOOL_IDS = [
   "companies",
   "people",
   "projects",
+  "skills",
   "knowledge",
 ] as const;
 
@@ -47,6 +48,14 @@ export const TOOL_CATALOG: ToolMeta[] = [
     name: "lookup_projects",
     label: "Projects",
     description: "Open-source projects as a JSON array.",
+    format: "json",
+  },
+  {
+    id: "skills",
+    name: "lookup_skills",
+    label: "Skills",
+    description:
+      "Tech skills as a JSON array of { name, aliases?, category?, level?, years?, notes? }.",
     format: "json",
   },
   {

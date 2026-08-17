@@ -47,3 +47,16 @@ export type ProjectRecord = {
   highlights?: string;
   notes?: string;
 };
+
+export type SkillRecord = {
+  name: string;
+  /** Alternate names / short names for fuzzy lookup (e.g. "TS" for TypeScript). */
+  aliases?: string[];
+  /** Grouping label (e.g. "language", "framework", "cloud", "tool"). */
+  category?: string;
+  /** Self-assessed comfort (e.g. "expert", "proficient", "familiar"). */
+  level?: string;
+  /** Years using it, when known (e.g. "8+", "~3 years"). */
+  years?: string;
+  notes?: string;
+};
