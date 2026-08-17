@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pai Chat
 
-## Getting Started
+First-person chat with [Sadanand Pai](https://github.com/sadanandpai). Grounded answers from a personal knowledge base — work, projects, people, companies. Off-topic and private questions are refused.
 
-First, run the development server:
+## Stack
+
+Next.js 16 · LangChain · Gemini (or Claude CLI) · Weaviate · Upstash Redis · [assistant-ui](https://www.assistant-ui.com/)
+
+## Setup
 
 ```bash
+cp .env.example .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Providers
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Set `LLM_PROVIDER` in `.env.local`:
 
-## Learn More
+| Value | Model | Grounding |
+|---|---|---|
+| unset / anything else | Gemini `gemini-3.5-flash-lite` | Full toolset (intro, companies, people, projects, knowledge) |
+| `claude-cli` | Local [`claude`](https://docs.anthropic.com/en/docs/claude-code) CLI | None — text only, no tools |
 
-To learn more about Next.js, take a look at the following resources:
+Gemini needs `GOOGLE_API_KEY`, Weaviate, and Upstash. Claude CLI uses the CLI's own auth — no API key, but ungrounded and billed per token.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Optional: `CLAUDE_CLI_MODEL` to pin the Claude model.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Knowledge
 
-## Deploy on Vercel
+Tool data lives in Redis. Long-form knowledge is chunked and indexed in Weaviate.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Edit it at `/admin?token=<ADMIN_SECRET>`. Cookie is set for 30 days; token is stripped from the URL.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+
+```bash
+npm run dev     # local server
+npm run build   # production build
+npm run start   # serve production build
+npm run lint    # eslint
+```
