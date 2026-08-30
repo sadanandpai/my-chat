@@ -1,6 +1,7 @@
 import { DeepChat } from "deep-chat-react";
 import { Link, useParams } from "react-router-dom";
 import { characterById } from "../characters.ts";
+import { useAllCharacters } from "../customCharacters.ts";
 import {
   aiAvatar,
   auxiliaryStyle,
@@ -12,32 +13,41 @@ import {
 } from "../chatWidgetStyles.ts";
 import {
   HISTORY_WINDOW,
-  LLM_PROXY_URL,
+  LLM_BACKEND,
   assistantReplyFromProxy,
   proxyRequestBody,
 } from "../llmProxy.ts";
 
 export function ChatPage() {
+  const characters = useAllCharacters();
   const { characterId } = useParams();
   const character =
-    characterId === undefined ? undefined : characterById(characterId);
+    characterId === undefined
+      ? undefined
+      : characterById(characterId, characters);
 
   if (character === undefined) {
     return (
-      <main className="page">
-        <p>Unknown character.</p>
-        <Link to="/">Back</Link>
-      </main>
+      <div className="chat-app">
+        <header className="home-topbar chat-topbar">
+          <Link className="home-brand" to="/">
+            Character Chat
+          </Link>
+        </header>
+        <main className="page">
+          <p>Unknown character.</p>
+        </main>
+      </div>
     );
   }
 
   return (
     <div className="chat-app">
-      <main className="chat-page">
-        <header className="chat-header">
-          <Link className="chat-back" to="/">
-            Back
-          </Link>
+      <header className="home-topbar chat-topbar">
+        <Link className="home-brand" to="/">
+          Character Chat
+        </Link>
+        <div className="chat-header-who">
           <img
             className="chat-header-avatar"
             src={character.avatar}
@@ -49,7 +59,9 @@ export function ChatPage() {
             <h1>{character.name}</h1>
             <p className="chat-header-blurb">{character.blurb}</p>
           </div>
-        </header>
+        </div>
+      </header>
+      <main className="chat-page">
         <div className="chat-shell">
           <DeepChat
             key={character.id}
@@ -62,14 +74,17 @@ export function ChatPage() {
             messageStyles={messageStyles}
             auxiliaryStyle={auxiliaryStyle}
             connect={{
-              url: LLM_PROXY_URL,
+              url: LLM_BACKEND.url,
               method: "POST",
               headers: { "Content-Type": "application/json" },
             }}
             requestBodyLimits={{ maxMessages: HISTORY_WINDOW }}
             requestInterceptor={(details) => ({
               ...details,
-              body: proxyRequestBody(character.systemPrompt, details.body),
+              body: proxyRequestBody({
+                systemPrompt: character.systemPrompt,
+                body: details.body,
+              }),
             })}
             responseInterceptor={assistantReplyFromProxy}
             remarkable={{ html: false }}
