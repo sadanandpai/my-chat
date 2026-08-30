@@ -5,6 +5,7 @@ export const DISCUSSION_MAX = 4;
 export const DEFAULT_ROUNDS = 2;
 export const MIN_ROUNDS = 2;
 export const MAX_ROUNDS = 5;
+export const DISCUSSION_CONTEXT_TURNS = 4;
 
 export const DISCUSSION_ATTITUDES = [
   {
@@ -116,12 +117,13 @@ export function discussionUserContent(args: {
 
 No one has spoken yet. Open the discussion as ${args.speakerName}.`;
   }
-  const soFar = args.turns
+  const recent = args.turns.slice(-DISCUSSION_CONTEXT_TURNS);
+  const soFar = recent
     .map((turn) => `${turn.name}: ${turn.text}`)
     .join("\n\n");
   return `Topic: ${args.topic.trim()}
 
-Discussion so far:
+Recent discussion (last ${recent.length} turn${recent.length === 1 ? "" : "s"}):
 
 ${soFar}
 
