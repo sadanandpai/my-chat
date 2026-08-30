@@ -109,6 +109,7 @@ function CharacterFormFields({
           onChange={(event) => {
             setField("name", event.target.value);
           }}
+          placeholder="Cynical Detective"
           required
           autoComplete="off"
         />
@@ -120,6 +121,7 @@ function CharacterFormFields({
           onChange={(event) => {
             setField("blurb", event.target.value);
           }}
+          placeholder="Coffee. Case. Doubt."
           required
           autoComplete="off"
         />
@@ -132,6 +134,7 @@ function CharacterFormFields({
           onChange={(event) => {
             setField("systemPrompt", event.target.value);
           }}
+          placeholder="You are roleplaying as a stock cynical detective. Stay in character. Every reply is one or two sentences. Never mention you are an AI."
           required
         />
       </label>

@@ -3,6 +3,8 @@ import type { Character } from "./characters.ts";
 export const DISCUSSION_MIN = 2;
 export const DISCUSSION_MAX = 4;
 export const DEFAULT_ROUNDS = 2;
+export const MIN_ROUNDS = 2;
+export const MAX_ROUNDS = 5;
 
 export const DISCUSSION_ATTITUDES = [
   {

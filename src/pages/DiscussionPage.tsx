@@ -7,6 +7,8 @@ import {
   DISCUSSION_ATTITUDES,
   DISCUSSION_MAX,
   DISCUSSION_MIN,
+  MAX_ROUNDS,
+  MIN_ROUNDS,
   attitudeLabels,
   discussionSystemPrompt,
   discussionUserContent,
@@ -42,7 +44,8 @@ export function DiscussionPage() {
     selectedIds.length <= DISCUSSION_MAX &&
     topic.trim().length > 0 &&
     Number.isInteger(rounds) &&
-    rounds >= 1;
+    rounds >= MIN_ROUNDS &&
+    rounds <= MAX_ROUNDS;
 
   useEffect(() => {
     threadEndRef.current?.scrollIntoView({ block: "end" });
@@ -335,12 +338,16 @@ export function DiscussionPage() {
               Rounds
               <input
                 type="number"
-                min={1}
-                max={12}
+                min={MIN_ROUNDS}
+                max={MAX_ROUNDS}
                 value={rounds}
                 onChange={(event) => {
                   const next = Number.parseInt(event.target.value, 10);
-                  setRounds(Number.isNaN(next) ? DEFAULT_ROUNDS : next);
+                  if (Number.isNaN(next)) {
+                    setRounds(DEFAULT_ROUNDS);
+                    return;
+                  }
+                  setRounds(Math.min(MAX_ROUNDS, Math.max(MIN_ROUNDS, next)));
                 }}
               />
             </label>

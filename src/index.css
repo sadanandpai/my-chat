@@ -336,6 +336,12 @@ a.home-brand:hover {
   background: var(--bg);
 }
 
+.character-modal-field input::placeholder,
+.character-modal-field textarea::placeholder {
+  color: var(--text);
+  opacity: 0.55;
+}
+
 .character-modal-avatars {
   margin: 0;
   padding: 0;
@@ -679,8 +685,11 @@ button.chat-back {
 
 .discussion-compact-topic {
   margin: 0;
-  font-size: 14px;
+  font-family: var(--sans);
+  font-size: 1.15rem;
   font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
   color: var(--text-h);
   white-space: nowrap;
   overflow: hidden;
@@ -787,6 +796,7 @@ button.chat-back {
 .discussion-field textarea,
 .discussion-field input {
   font: inherit;
+  font-size: 17px;
   font-weight: 400;
   color: var(--text);
   padding: 10px 12px;
