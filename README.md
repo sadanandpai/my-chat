@@ -1,35 +1,40 @@
-# React + TypeScript + Vite
+# Character Chat
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+1:1 chats and a short group discussion with stock character types. Each person stays in a tight voice: one or two sentences, no celebrity names, no "as an AI". Close a chat and the history is gone. Custom characters live in this browser only.
 
-Currently, two official plugins are available:
+Live build: https://sadanandpai.github.io/my-chat/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What it does
 
-## React Compiler
+**1:1 chat.** Home lists the built-ins (arrogant professor, stingy businessman, cynical detective, wellness guru, overconfident founder, hotheaded coach) plus anyone you add. Open a card and talk. The widget is [Deep Chat](https://github.com/OvidijusParsiunas/deep-chat). The last 4 user/assistant turns go to the model with that character's system prompt.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+**Your own characters.** Add new character on home. Name, blurb, system prompt, one of four local avatars. Edit and delete only apply to those. They are stored under `my-chat.custom-characters` in `localStorage`. Built-ins are not editable.
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+**Group discussion.** Pick 2 to 4 people, a topic, optional stacked attitudes (professional, rude, witty, and the rest), and 2 to 5 rounds. Speakers rotate. You can stop mid-run. The transcript stays on that page until you leave or start again.
 
-## Expanding the Oxlint configuration
+Routing is hash-based (`#/chat/professor`, `#/discussion`) so GitHub Pages works with `base: /my-chat/`.
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+## Run it
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+Needs Node 24 and, for local chat, [Ollama](https://ollama.com/) with `llama3.2` (or set `VITE_OLLAMA_MODEL`).
+
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Dev defaults to Ollama. Vite proxies `/ollama` to `http://127.0.0.1:11434`. Production builds use the Cloudflare worker at `https://llm-proxy.sadanandpai.workers.dev/` unless you force otherwise.
+
+| Variable | Meaning |
+| --- | --- |
+| `VITE_LLM_BACKEND` | `ollama` or `proxy`. Unset: ollama in `npm run dev`, proxy in a production build. |
+| `VITE_OLLAMA_URL` | Chat endpoint. Default `/ollama/api/chat`. |
+| `VITE_OLLAMA_MODEL` | Default `llama3.2`. |
+
+```bash
+npm run lint
+npm run build
+npm run preview
+```
+
+Push to `main` runs lint + build, then deploys `dist` to GitHub Pages.
