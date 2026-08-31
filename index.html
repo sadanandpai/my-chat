@@ -2,15 +2,86 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
     />
     <title>Character Chat</title>
+    <meta
+      name="description"
+      content="Talk to stock character types in a tight voice, or run a short group discussion. Close the page and the history is gone."
+    />
+    <meta name="application-name" content="Character Chat" />
+    <meta name="theme-color" content="#6d28d9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1014" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="canonical" href="https://sadanandpai.github.io/character-chat/" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Character Chat" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://sadanandpai.github.io/character-chat/" />
+    <meta property="og:title" content="Character Chat" />
+    <meta
+      property="og:description"
+      content="Talk to stock character types in a tight voice, or run a short group discussion. Close the page and the history is gone."
+    />
+    <meta
+      property="og:image"
+      content="https://sadanandpai.github.io/character-chat/og.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Character Chat: talk like you sat down with them."
+    />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Character Chat" />
+    <meta
+      name="twitter:description"
+      content="Talk to stock character types in a tight voice, or run a short group discussion. Close the page and the history is gone."
+    />
+    <meta
+      name="twitter:image"
+      content="https://sadanandpai.github.io/character-chat/og.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Character Chat: talk like you sat down with them."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Character Chat",
+        "url": "https://sadanandpai.github.io/character-chat/",
+        "description": "Talk to stock character types in a tight voice, or run a short group discussion. Close the page and the history is gone.",
+        "applicationCategory": "EntertainmentApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "image": "https://sadanandpai.github.io/character-chat/og.png"
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>Character Chat</h1>
+      <p>
+        Talk to stock character types in a tight voice, or run a short group
+        discussion. Close the page and the history is gone. JavaScript is
+        required to chat.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

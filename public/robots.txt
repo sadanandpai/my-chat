@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sadanandpai.github.io/character-chat/sitemap.xml
