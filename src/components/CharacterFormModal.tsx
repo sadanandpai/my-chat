@@ -119,7 +119,7 @@ function CharacterFormFields({
           onChange={(event) => {
             setField("name", event.target.value);
           }}
-          placeholder="Cynical Detective"
+          placeholder="Policy-First HR"
           required
           minLength={CHARACTER_FIELD_LIMITS.name.min}
           maxLength={CHARACTER_FIELD_LIMITS.name.max}
@@ -130,7 +130,8 @@ function CharacterFormFields({
         <span className="character-modal-field-head">
           Blurb
           <span className="character-modal-field-limit">
-            {CHARACTER_FIELD_LIMITS.blurb.min}–{CHARACTER_FIELD_LIMITS.blurb.max}
+            {CHARACTER_FIELD_LIMITS.blurb.min}–
+            {CHARACTER_FIELD_LIMITS.blurb.max}
           </span>
         </span>
         <input
@@ -138,7 +139,7 @@ function CharacterFormFields({
           onChange={(event) => {
             setField("blurb", event.target.value);
           }}
-          placeholder="Coffee. Case. Doubt."
+          placeholder="Check the handbook."
           required
           minLength={CHARACTER_FIELD_LIMITS.blurb.min}
           maxLength={CHARACTER_FIELD_LIMITS.blurb.max}
@@ -149,7 +150,8 @@ function CharacterFormFields({
         <span className="character-modal-field-head">
           System prompt
           <span className="character-modal-field-limit">
-            {CHARACTER_FIELD_LIMITS.systemPrompt.min}–{CHARACTER_FIELD_LIMITS.systemPrompt.max}
+            {CHARACTER_FIELD_LIMITS.systemPrompt.min}–
+            {CHARACTER_FIELD_LIMITS.systemPrompt.max}
           </span>
         </span>
         <textarea
@@ -158,7 +160,7 @@ function CharacterFormFields({
           onChange={(event) => {
             setField("systemPrompt", event.target.value);
           }}
-          placeholder="You are roleplaying as a stock cynical detective. Stay in character. Every reply is one or two sentences. Never mention you are an AI."
+          placeholder="You are roleplaying as a stock policy-first HR partner. Speak in calm, careful English. Prefer process over feelings when the topic is work."
           required
           minLength={CHARACTER_FIELD_LIMITS.systemPrompt.min}
           maxLength={CHARACTER_FIELD_LIMITS.systemPrompt.max}

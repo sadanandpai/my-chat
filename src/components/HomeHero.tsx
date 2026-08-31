@@ -12,7 +12,7 @@ export function HomeHero() {
         <p className="home-hero-lede">
           Pick a stock type. The chat stays in that voice: the professor who
           thinks you are wasting office hours, the businessman who splits the
-          bill, the coach mid-rant. History lives on the page you are on. Close
+          bill, HR quoting the handbook. History lives on the page you are on. Close
           it and it is gone.
         </p>
       </div>

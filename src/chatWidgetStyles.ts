@@ -93,6 +93,14 @@ export const submitButtonStyles = {
       },
     },
   },
+  loading: {
+    container: {
+      default: {
+        ...submitButtonBox,
+        backgroundColor: "var(--accent)",
+      },
+    },
+  },
   disabled: {
     container: {
       default: {
@@ -194,12 +202,35 @@ export const auxiliaryStyle = `
   margin: 0;
   transform: translateY(-50%);
 }
+.loading-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading-submit-button {
+  position: relative;
+  inset: auto !important;
+  inset-inline-start: auto !important;
+  inset-block-end: auto !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 0;
+  border-radius: 50%;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: 2px solid color-mix(in srgb, var(--on-accent) 28%, transparent);
+  border-block-start-color: var(--on-accent);
+  animation: loading-spinner 0.75s linear infinite !important;
+}
 #submit-icon {
   height: 18px;
   width: 18px;
   display: block;
   flex: none;
   transform: translate(-1px, 1px);
+}
+.loading-button #submit-icon {
+  transform: none;
 }
 #messages {
   overflow-y: auto;

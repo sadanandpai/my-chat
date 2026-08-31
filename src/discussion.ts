@@ -90,7 +90,7 @@ export function discussionSystemPrompt(args: {
 
 You are in a group discussion with other people in the room. The topic is: ${args.topic.trim()}${extra}
 
-Others in the room: ${others}. Speak only as yourself. Do not speak for anyone else. There is no user to reply to. React to what has already been said if anything: agree, differ, or take a new angle, in your own voice. Stay at one or two sentences.`;
+Others in the room: ${others}. Speak only as yourself. Do not speak for anyone else. There is no user to reply to. React to what has already been said if anything: agree, differ, or take a new angle, in your own voice. Discuss this topic; do not refuse it as off-job or steer it back to your profession unless that is the topic. Stay at one or two sentences.`;
 }
 
 export function discussionUserContent(args: {

@@ -6,7 +6,7 @@ Live build: https://sadanandpai.github.io/character-chat/
 
 ## What it does
 
-**1:1 chat.** Home lists the built-ins (arrogant professor, stingy businessman, cynical detective, wellness guru, overconfident founder, hotheaded coach) plus anyone you add. Open a card and talk. The widget is [Deep Chat](https://github.com/OvidijusParsiunas/deep-chat). The last 4 user/assistant turns go to the model with that character's system prompt.
+**1:1 chat.** Home lists the built-ins (arrogant professor, stingy businessman, policy-first HR, wellness guru, overconfident founder, punchline comedian) plus anyone you add. Open a card and talk. The widget is [Deep Chat](https://github.com/OvidijusParsiunas/deep-chat). The last 4 user/assistant turns go to the model with that character's system prompt.
 
 **Your own characters.** Add new character on home. Name, blurb, system prompt, one of four local avatars. Edit and delete only apply to those. They are stored under `character-chat.custom-characters` in `localStorage`. Built-ins are not editable.
 
