@@ -17,6 +17,44 @@ export type CustomCharacterDraft = {
   avatarId: CustomAvatarId;
 };
 
+export const CHARACTER_FIELD_LIMITS = {
+  name: { min: 3, max: 20 },
+  blurb: { min: 3, max: 30 },
+  systemPrompt: { min: 10, max: 600 },
+} as const;
+
+function inFieldRange(
+  value: string,
+  limits: { readonly min: number; readonly max: number },
+): boolean {
+  return value.length >= limits.min && value.length <= limits.max;
+}
+
+function trimmedDraft(draft: CustomCharacterDraft): CustomCharacterDraft {
+  return {
+    name: draft.name.trim(),
+    blurb: draft.blurb.trim(),
+    systemPrompt: draft.systemPrompt.trim(),
+    avatarId: draft.avatarId,
+  };
+}
+
+export function characterDraftError(
+  draft: CustomCharacterDraft,
+): string | undefined {
+  const fields = trimmedDraft(draft);
+  if (!inFieldRange(fields.name, CHARACTER_FIELD_LIMITS.name)) {
+    return `Name must be ${CHARACTER_FIELD_LIMITS.name.min}–${CHARACTER_FIELD_LIMITS.name.max} characters.`;
+  }
+  if (!inFieldRange(fields.blurb, CHARACTER_FIELD_LIMITS.blurb)) {
+    return `Blurb must be ${CHARACTER_FIELD_LIMITS.blurb.min}–${CHARACTER_FIELD_LIMITS.blurb.max} characters.`;
+  }
+  if (!inFieldRange(fields.systemPrompt, CHARACTER_FIELD_LIMITS.systemPrompt)) {
+    return `System prompt must be ${CHARACTER_FIELD_LIMITS.systemPrompt.min}–${CHARACTER_FIELD_LIMITS.systemPrompt.max} characters.`;
+  }
+  return undefined;
+}
+
 const listeners = new Set<() => void>();
 
 let cachedRaw = "";
@@ -35,12 +73,14 @@ function parseCustomCharacter(value: unknown): CustomCharacter | undefined {
   const { id, name, blurb, systemPrompt, avatarId } = value;
   if (typeof id !== "string" || id.length === 0) return undefined;
   if (CHARACTERS.some((character) => character.id === id)) return undefined;
-  if (typeof name !== "string" || name.trim().length === 0) return undefined;
-  if (typeof blurb !== "string" || blurb.trim().length === 0) return undefined;
-  if (typeof systemPrompt !== "string" || systemPrompt.trim().length === 0) {
+  if (typeof name !== "string" || typeof blurb !== "string") return undefined;
+  if (typeof systemPrompt !== "string") return undefined;
+  if (!isCustomAvatarId(avatarId)) return undefined;
+  if (
+    characterDraftError({ name, blurb, systemPrompt, avatarId }) !== undefined
+  ) {
     return undefined;
   }
-  if (!isCustomAvatarId(avatarId)) return undefined;
   return {
     kind: "custom",
     id,
@@ -120,13 +160,8 @@ export function useAllCharacters(): Character[] {
 function normalizeDraft(
   draft: CustomCharacterDraft,
 ): CustomCharacterDraft | undefined {
-  const name = draft.name.trim();
-  const blurb = draft.blurb.trim();
-  const systemPrompt = draft.systemPrompt.trim();
-  if (name.length === 0 || blurb.length === 0 || systemPrompt.length === 0) {
-    return undefined;
-  }
-  return { name, blurb, systemPrompt, avatarId: draft.avatarId };
+  if (characterDraftError(draft) !== undefined) return undefined;
+  return trimmedDraft(draft);
 }
 
 export function addCustomCharacter(

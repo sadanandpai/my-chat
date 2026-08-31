@@ -1,6 +1,6 @@
 import { DeepChat } from "deep-chat-react";
 import { Link, useParams } from "react-router-dom";
-import { characterById } from "../characters.ts";
+import { characterById, effectiveSystemPrompt } from "../characters.ts";
 import { useAllCharacters } from "../customCharacters.ts";
 import {
   aiAvatar,
@@ -82,7 +82,7 @@ export function ChatPage() {
             requestInterceptor={(details) => ({
               ...details,
               body: proxyRequestBody({
-                systemPrompt: character.systemPrompt,
+                systemPrompt: effectiveSystemPrompt(character),
                 body: details.body,
               }),
             })}

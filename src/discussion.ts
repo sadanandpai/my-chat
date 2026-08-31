@@ -1,4 +1,4 @@
-import type { Character } from "./characters.ts";
+import { effectiveSystemPrompt, type Character } from "./characters.ts";
 
 export const DISCUSSION_MIN = 2;
 export const DISCUSSION_MAX = 4;
@@ -14,15 +14,19 @@ export const DISCUSSION_ATTITUDES = [
     instruction: "Keep workplace diction.",
   },
   {
-    id: "polite",
-    label: "Polite",
-    instruction: "Stay courteous to the people in the room.",
+    id: "warm",
+    label: "Warm",
+    instruction: "Stay friendly, constructive, and helpful.",
   },
   {
-    id: "rude",
-    label: "Rude",
-    instruction:
-      "Be rude to weak claims and pretension, not to the other speakers.",
+    id: "witty",
+    label: "Witty",
+    instruction: "Allow dry humor. Show practical impacts.",
+  },
+  {
+    id: "funny",
+    label: "Funny",
+    instruction: "Add dark humor. Make the audience laugh.",
   },
   {
     id: "direct",
@@ -30,29 +34,13 @@ export const DISCUSSION_ATTITUDES = [
     instruction: "Skip hedging. Say the point.",
   },
   {
-    id: "witty",
-    label: "Witty",
-    instruction: "Allow dry humor.",
-  },
-  {
-    id: "warm",
-    label: "Warm",
-    instruction: "Stay friendly.",
-  },
-  {
-    id: "skeptical",
-    label: "Skeptical",
-    instruction: "Push back when a claim is thin.",
-  },
-  {
-    id: "playful",
-    label: "Playful",
-    instruction: "Keep a light touch.",
+    id: "rude",
+    label: "Rude",
+    instruction: "Be rude to claims, pretension, and to the other speakers.",
   },
 ] as const;
 
-export type DiscussionAttitudeId =
-  (typeof DISCUSSION_ATTITUDES)[number]["id"];
+export type DiscussionAttitudeId = (typeof DISCUSSION_ATTITUDES)[number]["id"];
 
 export function extraInstructionsFromAttitudes(
   ids: readonly DiscussionAttitudeId[],
@@ -65,9 +53,7 @@ export function extraInstructionsFromAttitudes(
   return `Use every selected attitude at once. They stack. Do not drop one for another.\n${lines.join("\n")}`;
 }
 
-export function attitudeLabels(
-  ids: readonly DiscussionAttitudeId[],
-): string {
+export function attitudeLabels(ids: readonly DiscussionAttitudeId[]): string {
   const selected = new Set(ids);
   return DISCUSSION_ATTITUDES.filter((attitude) => selected.has(attitude.id))
     .map((attitude) => attitude.label)
@@ -100,7 +86,7 @@ export function discussionSystemPrompt(args: {
     args.extraInstructions.trim().length > 0
       ? `\nHost notes for everyone: ${args.extraInstructions.trim()}`
       : "";
-  return `${args.character.systemPrompt}
+  return `${effectiveSystemPrompt(args.character)}
 
 You are in a group discussion with other people in the room. The topic is: ${args.topic.trim()}${extra}
 
@@ -118,9 +104,7 @@ export function discussionUserContent(args: {
 No one has spoken yet. Open the discussion as ${args.speakerName}.`;
   }
   const recent = args.turns.slice(-DISCUSSION_CONTEXT_TURNS);
-  const soFar = recent
-    .map((turn) => `${turn.name}: ${turn.text}`)
-    .join("\n\n");
+  const soFar = recent.map((turn) => `${turn.name}: ${turn.text}`).join("\n\n");
   return `Topic: ${args.topic.trim()}
 
 Recent discussion (last ${recent.length} turn${recent.length === 1 ? "" : "s"}):

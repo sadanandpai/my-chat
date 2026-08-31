@@ -6,6 +6,8 @@ import {
 } from "../characters.ts";
 import {
   addCustomCharacter,
+  CHARACTER_FIELD_LIMITS,
+  characterDraftError,
   updateCustomCharacter,
   type CustomCharacterDraft,
 } from "../customCharacters.ts";
@@ -86,7 +88,10 @@ function CharacterFormFields({
         ? addCustomCharacter(draft)
         : updateCustomCharacter({ id: mode.character.id, draft });
     if (saved === undefined) {
-      setError("Name, blurb, and system prompt are required.");
+      setError(
+        characterDraftError(draft) ??
+          "Could not save this character. Try again.",
+      );
       return;
     }
     onClose();
@@ -103,7 +108,12 @@ function CharacterFormFields({
     >
       <h2 id={`${formId}-title`}>{title}</h2>
       <label className="character-modal-field">
-        Name
+        <span className="character-modal-field-head">
+          Name
+          <span className="character-modal-field-limit">
+            {CHARACTER_FIELD_LIMITS.name.min}–{CHARACTER_FIELD_LIMITS.name.max}
+          </span>
+        </span>
         <input
           value={draft.name}
           onChange={(event) => {
@@ -111,11 +121,18 @@ function CharacterFormFields({
           }}
           placeholder="Cynical Detective"
           required
+          minLength={CHARACTER_FIELD_LIMITS.name.min}
+          maxLength={CHARACTER_FIELD_LIMITS.name.max}
           autoComplete="off"
         />
       </label>
       <label className="character-modal-field">
-        Blurb
+        <span className="character-modal-field-head">
+          Blurb
+          <span className="character-modal-field-limit">
+            {CHARACTER_FIELD_LIMITS.blurb.min}–{CHARACTER_FIELD_LIMITS.blurb.max}
+          </span>
+        </span>
         <input
           value={draft.blurb}
           onChange={(event) => {
@@ -123,11 +140,18 @@ function CharacterFormFields({
           }}
           placeholder="Coffee. Case. Doubt."
           required
+          minLength={CHARACTER_FIELD_LIMITS.blurb.min}
+          maxLength={CHARACTER_FIELD_LIMITS.blurb.max}
           autoComplete="off"
         />
       </label>
       <label className="character-modal-field">
-        System prompt
+        <span className="character-modal-field-head">
+          System prompt
+          <span className="character-modal-field-limit">
+            {CHARACTER_FIELD_LIMITS.systemPrompt.min}–{CHARACTER_FIELD_LIMITS.systemPrompt.max}
+          </span>
+        </span>
         <textarea
           value={draft.systemPrompt}
           rows={6}
@@ -136,6 +160,8 @@ function CharacterFormFields({
           }}
           placeholder="You are roleplaying as a stock cynical detective. Stay in character. Every reply is one or two sentences. Never mention you are an AI."
           required
+          minLength={CHARACTER_FIELD_LIMITS.systemPrompt.min}
+          maxLength={CHARACTER_FIELD_LIMITS.systemPrompt.max}
         />
       </label>
       <fieldset className="character-modal-avatars">

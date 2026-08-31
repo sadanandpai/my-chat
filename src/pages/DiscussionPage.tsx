@@ -212,9 +212,11 @@ export function DiscussionPage() {
         <Link className="home-brand" to="/">
           Character Chat
         </Link>
-        <button type="button" className="chat-back" onClick={openSetup}>
-          Back
-        </button>
+        {compact ? (
+          <button type="button" className="chat-back" onClick={openSetup}>
+            Back
+          </button>
+        ) : null}
       </header>
       <main
         className={
@@ -225,6 +227,14 @@ export function DiscussionPage() {
       >
         {compact ? (
           <div className="discussion-compact-bar">
+            <p className="discussion-compact-topic">
+              {topic} &nbsp;
+              {attitudeIds.length > 0 ? (
+                <span className="discussion-compact-notes">
+                  ({attitudeLabels(attitudeIds)})
+                </span>
+              ) : null}
+            </p>
             <div className="discussion-compact-faces" aria-hidden="true">
               {selectedIds.map((id) => {
                 const character = characterById(id, characters);
@@ -239,14 +249,6 @@ export function DiscussionPage() {
                   />
                 );
               })}
-            </div>
-            <div className="discussion-compact-copy">
-              <p className="discussion-compact-topic">{topic}</p>
-              {attitudeIds.length > 0 ? (
-                <p className="discussion-compact-notes">
-                  {attitudeLabels(attitudeIds)}
-                </p>
-              ) : null}
             </div>
             <p className="discussion-compact-rounds">{rounds} rounds</p>
             {actions}
