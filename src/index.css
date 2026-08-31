@@ -641,6 +641,12 @@ button.chat-back {
   border: none;
 }
 
+.home-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .home-discuss-link {
   padding: 8px 14px;
   border: 1px solid var(--border);
@@ -654,6 +660,24 @@ button.chat-back {
 
 .home-discuss-link:hover {
   border-color: var(--accent);
+}
+
+.home-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.home-github-link:hover {
+  color: var(--accent);
+}
+
+.home-github-icon {
+  display: block;
 }
 
 .discussion-page h1 {

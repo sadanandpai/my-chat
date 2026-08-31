@@ -8,7 +8,7 @@ import {
   type CustomCharacter,
 } from "./characters.ts";
 
-const STORAGE_KEY = "my-chat.custom-characters";
+const STORAGE_KEY = "character-chat.custom-characters";
 
 export type CustomCharacterDraft = {
   name: string;
